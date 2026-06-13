@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Sample Mosquito</string>
+    <string name="notification_small">Notification Small</string>
+    <string name="notification_alert">Notification Alert</string>
+
+    <string name="publish">Publish</string>
+    <string name="reconnect">Reconnect on lost connection</string>
+    <string name="connecting">Connecting&#8230;</string>
+    <string name="connect">Connect</string>
+    <string name="connected">Connected</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="mqtt_disconnected">Mqtt disconnected!</string>
+    <string name="closing_service">Closing service&#8230;</string>
+    <string name="unsubscribed">Unsubscribed!</string>
+    <string name="unsubscribing">Unsubscribing&#8230;</string>
+    <string name="subscribed">Subscribed</string>
+    <string name="subscribing">Subscribing&#8230;</string>
+    <string name="broker">Broker</string>
+    <string name="broker_prefix">tcp://</string>
+    <string name="port">Port</string>
+    <string name="messages">Messages</string>
+    <string name="message">Message</string>
+    <string name="periodicity">Periodicity</string>
+    <string name="ten_thousand">10000</string>
+    <string name="ten_s">10s</string>
+    <string name="send">Send</string>
+    <string name="sending">Sending&#8230;</string>
+    <string name="send_retained">Send Retained</string>
+    <string name="delete_retained">Delete Retained</string>
+    <string name="received_message">Received message</string>
+    <string name="two_points">:</string>
+    <string name="topics">Topics</string>
+    <string name="topic">Topic</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="unsubscribe">Unsubscribe</string>
+    <string name="publication_arrived">Publication arrived at server</string>
+    <string name="wait_for_internet_connection">Waiting for internet connection&#8230;</string>
+
+    <string name="error_no_internet_connection">No internet connection!</string>
+</resources>

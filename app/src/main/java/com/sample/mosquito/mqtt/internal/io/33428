@@ -1,0 +1,91 @@
+package com.sample.mosquito.mqtt.internal.io;
+
+import android.util.Log;
+
+import com.sample.mosquito.mqtt.internal.messages.MqttMessage;
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.InvalidParameterException;
+
+public class MqttInputStream {
+
+    private final DataInputStream in;
+
+    public MqttInputStream(InputStream in) {
+        this.in = new DataInputStream(in);
+    }
+
+    public int read() throws IOException {
+        return in.read();
+    }
+
+    public int available() throws IOException {
+        return in.available();
+    }
+
+    public void close() throws IOException {
+        in.close();
+    }
+
+    public MqttMessage readMqttMessage() throws IOException {
+        ByteArrayOutputStream bais = new ByteArrayOutputStream();
+        byte first = in.readByte();
+        byte type = (byte) ((first >>> 4) & 0x0F);
+        // Log.d("lucas", "mosquito sample received:" + type);
+        if ((type < MqttMessage.MESSAGE_TYPE_CONNECT) || (type > MqttMessage.MESSAGE_TYPE_DISCONNECT)) {
+            throw new InvalidParameterException("Invalid type message!");
+        }
+        long remLen = decodeMBI(in);
+        bais.write(first);
+        bais.write(encodeMBI(remLen));
+        byte[] packet = new byte[(int) (bais.size() + remLen)];
+        readFully(packet, bais.size(), packet.length - bais.size());
+
+        byte[] header = bais.toByteArray();
+        System.arraycopy(header, 0, packet, 0, header.length);
+        return new MqttMessage.Creator().getMessage(packet);
+    }
+
+    private void readFully(byte b[], int off, int len) throws IOException {
+        if (len < 0) throw new IndexOutOfBoundsException();
+        int n = 0;
+        while (n < len) {
+            int count = in.read(b, off + n, len - n);
+            if (count < 0) throw new EOFException();
+            n += count;
+        }
+    }
+
+    private long decodeMBI(DataInputStream in) throws IOException {
+        byte digit;
+        long msgLength = 0;
+        long multiplier = 1;
+        do {
+            digit = in.readByte();
+            msgLength += ((digit & 0x7F) * multiplier);
+            multiplier *= 128;
+        } while ((digit & 0x80) != 0);
+        return msgLength;
+    }
+
+    private byte[] encodeMBI(long number) {
+        int numBytes = 0;
+        long no = number;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        do {
+            byte digit = (byte) (no % 128);
+            no = no / 128;
+            if (no > 0) {
+                digit |= 0x80;
+            }
+            bos.write(digit);
+            numBytes++;
+        } while ((no > 0) && (numBytes < 4));
+        return bos.toByteArray();
+    }
+}
+

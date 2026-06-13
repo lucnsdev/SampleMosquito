@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_app"
+    android:padding="@dimen/margin">
+
+    <ImageView
+        android:id="@+id/appIcon"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="@dimen/margin"
+        android:src="@drawable/icon_notification" />
+
+    <TextView
+        android:id="@+id/textAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/appIcon"
+        android:layout_alignBottom="@+id/appIcon"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_toEndOf="@+id/appIcon"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="@string/app_name"
+        android:textColor="@color/main"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:layout_toEndOf="@+id/textAppName"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/textTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/appIcon"
+        android:layout_marginEnd="@dimen/margin"
+        android:maxLines="1"
+        android:layout_alignParentEnd="true"
+        android:singleLine="true"
+        android:textColor="@color/gray"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/textDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appIcon"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="@dimen/margin"
+        android:layout_toStartOf="@+id/button"
+        android:gravity="start|top"
+        android:singleLine="true"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/button_state"
+        android:layout_below="@+id/textTime"
+        android:layout_marginTop="4dp"
+        android:text="@android:string/cancel"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:textColor="@color/white_2"
+        android:textSize="14sp" />
+</RelativeLayout>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_app">
+
+    <RelativeLayout
+        android:id="@+id/rootPublish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fragment_upper"
+        android:elevation="4dp"
+        android:paddingStart="@dimen/margin_4"
+        android:paddingTop="@dimen/margin_3"
+        android:paddingEnd="@dimen/margin_4"
+        android:paddingBottom="@dimen/margin_4">
+
+        <TextView
+            android:id="@+id/textTitlePublish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="56dp"
+            android:fontFamily="sans-serif-thin"
+            android:text="@string/publish"
+            android:textColor="@color/color_highlight"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/editTextTopicSend"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_below="@+id/textTitlePublish"
+            android:layout_marginTop="@dimen/margin_3"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/topic"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:paddingStart="@dimen/margin_2"
+            android:paddingEnd="@dimen/margin_2"
+            android:textColor="@color/edittext_text"
+            android:textCursorDrawable="@drawable/cursor" />
+
+        <EditText
+            android:id="@+id/editTextMessage"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_below="@+id/editTextTopicSend"
+            android:layout_marginTop="@dimen/margin"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/message"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:paddingStart="@dimen/margin_2"
+            android:paddingEnd="@dimen/margin_2"
+            android:textColor="@color/edittext_text"
+            android:textCursorDrawable="@drawable/cursor" />
+
+        <EditText
+            android:id="@+id/editTextPeriodicity"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_below="@+id/editTextMessage"
+            android:layout_marginTop="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin_2"
+            android:layout_toStartOf="@+id/aSwitch"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/periodicity"
+            android:imeOptions="actionSend"
+            android:inputType="number"
+            android:paddingStart="@dimen/margin_2"
+            android:paddingEnd="@dimen/margin_2"
+            android:text="@string/ten_thousand"
+            android:textColor="@color/edittext_text"
+            android:textCursorDrawable="@drawable/cursor" />
+
+        <Switch
+            android:id="@+id/aSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/editTextPeriodicity"
+            android:layout_alignBottom="@+id/editTextPeriodicity"
+            android:layout_centerHorizontal="true"
+            android:enabled="false"
+            android:paddingStart="@dimen/margin"
+            android:paddingEnd="@dimen/margin"
+            android:thumbTint="@drawable/switch_state"
+            android:trackTint="@drawable/switch_state" />
+
+        <TextView
+            android:id="@+id/textTimeCounter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/editTextPeriodicity"
+            android:layout_alignBottom="@+id/editTextPeriodicity"
+            android:layout_marginStart="@dimen/margin_2"
+            android:layout_toEndOf="@+id/aSwitch"
+            android:background="@drawable/edit_text_background"
+            android:gravity="center"
+            android:text="@string/ten_s"
+            android:textColor="@color/edittext_text"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonSend"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextPeriodicity"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_4"
+            android:background="@drawable/button_state"
+            android:enabled="false"
+            android:text="@string/send"
+            android:textColor="@drawable/text_state" />
+
+        <Button
+            android:id="@+id/buttonSendRetained"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextPeriodicity"
+            android:layout_marginTop="@dimen/margin_4"
+            android:layout_marginEnd="@dimen/margin"
+            android:layout_toStartOf="@+id/buttonSend"
+            android:background="@drawable/button_state"
+            android:enabled="false"
+            android:text="@string/send_retained"
+            android:textColor="@drawable/text_state" />
+
+        <Button
+            android:id="@+id/buttonDeleteRetained"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextPeriodicity"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginTop="@dimen/margin_4"
+            android:layout_toEndOf="@+id/buttonSend"
+            android:background="@drawable/button_state"
+            android:enabled="true"
+            android:text="@string/delete_retained"
+            android:textColor="@drawable/text_state" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rootSubscription"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rootPublish"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/fragment_downer"
+        android:elevation="4dp"
+        android:paddingStart="@dimen/margin_4"
+        android:paddingTop="@dimen/margin_3"
+        android:paddingEnd="@dimen/margin_4">
+
+        <TextView
+            android:id="@+id/textTitleSubscribe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif-thin"
+            android:text="@string/subscribe"
+            android:textColor="@color/color_highlight"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/editTextTopicReceive"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_below="@+id/textTitleSubscribe"
+            android:layout_marginTop="@dimen/margin_3"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/topic"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:paddingStart="@dimen/margin_2"
+            android:paddingEnd="@dimen/margin_2"
+            android:textColor="@color/edittext_text"
+            android:textCursorDrawable="@drawable/cursor" />
+
+        <Button
+            android:id="@+id/buttonSubscribe"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextTopicReceive"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_4"
+            android:background="@drawable/button_state"
+            android:enabled="false"
+            android:text="@string/subscribe"
+            android:textColor="@drawable/text_state" />
+
+        <TextView
+            android:id="@+id/textTitleMessages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonSubscribe"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_3"
+            android:fontFamily="sans-serif-thin"
+            android:text="@string/messages"
+            android:textColor="@color/color_highlight"
+            android:textSize="24sp" />
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textTitleMessages"
+            android:layout_marginTop="@dimen/margin_2"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="4dp"
+            android:listSelector="@android:color/transparent"
+            android:scrollbarSize="1dp"
+            android:scrollbarThumbVertical="@color/button_enabled" />
+    </RelativeLayout>
+</RelativeLayout>

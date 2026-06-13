@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="72dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="@string/broker"
+        android:textColor="@color/color_highlight"
+        android:textSize="42sp" />
+
+    <EditText
+        android:id="@+id/editTextBroker"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_below="@+id/textTitle"
+        android:layout_marginStart="@dimen/margin_5"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginEnd="@dimen/margin"
+        android:layout_toStartOf="@+id/textPoints"
+        android:background="@drawable/edit_text_left_background"
+        android:hint="@string/broker"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:paddingStart="@dimen/margin_2"
+        android:paddingEnd="@dimen/margin_2"
+        android:textColor="@color/edittext_text"
+        android:textCursorDrawable="@drawable/cursor" />
+
+    <TextView
+        android:id="@+id/textPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/editTextPort"
+        android:layout_alignBottom="@+id/editTextPort"
+        android:layout_marginEnd="@dimen/margin"
+        android:layout_toStartOf="@+id/editTextPort"
+        android:gravity="center"
+        android:text="@string/two_points"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextPort"
+        android:layout_width="100dp"
+        android:layout_height="36dp"
+        android:layout_below="@+id/textTitle"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginEnd="@dimen/margin_5"
+        android:background="@drawable/edit_text_right_background"
+        android:hint="@string/port"
+        android:imeOptions="actionGo"
+        android:inputType="numberSigned"
+        android:paddingStart="@dimen/margin_2"
+        android:paddingEnd="@dimen/margin_2"
+        android:textColor="@color/edittext_text"
+        android:textCursorDrawable="@drawable/cursor" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextBroker"
+        android:layout_marginStart="@dimen/margin_5"
+        android:layout_marginTop="@dimen/margin_2"
+        android:checked="false"
+        android:text="@string/reconnect"
+        android:textColor="@color/color_normal" />
+
+    <Button
+        android:id="@+id/buttonConnect"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBox"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_4"
+        android:background="@drawable/button_state"
+        android:enabled="false"
+        android:text="@string/connect"
+        android:textColor="@drawable/text_state" />
+
+    <Button
+        android:id="@+id/buttonTopic"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonConnect"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_4"
+        android:background="@drawable/button_state"
+        android:enabled="false"
+        android:text="@string/topic"
+        android:textColor="@drawable/text_state" />
+
+</RelativeLayout>
