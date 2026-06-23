@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 public class MqttPublishMessage extends MqttMessage {
 
     private String topic;
-    private int qos = 0;
+    private int qos;
     private boolean isRetained;
     protected byte[] payload;
 
@@ -20,25 +20,28 @@ public class MqttPublishMessage extends MqttMessage {
         super(MESSAGE_TYPE_PUBLISH);
     }
 
-    public MqttPublishMessage(String topic, byte[] payload, boolean isRetained) {
+    public MqttPublishMessage(String topic, byte[] payload, boolean isRetained, int qos) {
         super(MESSAGE_TYPE_PUBLISH);
         this.topic = topic;
         this.payload = payload;
         this.isRetained = isRetained;
+        this.qos = qos;
     }
 
-    public MqttPublishMessage(String topic, String publication) {
+    public MqttPublishMessage(String topic, String publication, int qos) {
         super(MESSAGE_TYPE_PUBLISH);
         this.topic = topic;
         this.payload = publication.getBytes(StandardCharsets.UTF_8);
         this.isRetained = false;
+        this.qos = qos;
     }
 
-    public MqttPublishMessage(String topic, String publication, boolean isRetained) {
+    public MqttPublishMessage(String topic, String publication, boolean isRetained, int qos) {
         super(MESSAGE_TYPE_PUBLISH);
         this.topic = topic;
         this.payload = publication.getBytes(StandardCharsets.UTF_8);
         this.isRetained = isRetained;
+        this.qos = qos;
     }
 
     public MqttPublishMessage(byte info, byte[] data) throws IOException {

@@ -31,6 +31,8 @@ public class MqttClient {
         void onPingCompleted();
     }
 
+    public static final int DEFAULT_QOS = 1;
+
     private Callback callback;
     private final TcpNetwork tcpNetwork;
     private final Handler handler;
@@ -73,7 +75,7 @@ public class MqttClient {
     }
 
     public boolean isConnected() {
-        return tcpNetwork != null && tcpNetwork.isConnected(); // and more
+        return tcpNetwork != null && tcpNetwork.isConnected();
     }
 
     public boolean isConnecting() {
@@ -265,7 +267,7 @@ public class MqttClient {
 
     public void subscribe(String topic) {
         if (!isConnected()) return;
-        dataWriter.put(new MqttSubscribeMessage(new String[]{topic}, new int[]{0}));
+        dataWriter.put(new MqttSubscribeMessage(new String[]{topic}, new int[]{DEFAULT_QOS}));
     }
 
     public void unsubscribe(String topic) {
@@ -278,7 +280,7 @@ public class MqttClient {
     }
 
     public void publish(String topic, String publication, boolean retained) {
-        publish(new MqttPublishMessage(topic, publication, retained));
+        publish(new MqttPublishMessage(topic, publication, retained, DEFAULT_QOS));
     }
 
     public void publish(MqttMessage mqttMessage) {
@@ -292,6 +294,6 @@ public class MqttClient {
     }
 
     public void deleteRetained(String topic) {
-        publish(new MqttPublishMessage(topic, new byte[0], true));
+        publish(new MqttPublishMessage(topic, new byte[0], true, 0));
     }
 }

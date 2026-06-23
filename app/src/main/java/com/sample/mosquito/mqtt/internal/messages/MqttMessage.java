@@ -1,7 +1,5 @@
 package com.sample.mosquito.mqtt.internal.messages;
 
-import android.util.Log;
-
 import com.sample.mosquito.mqtt.internal.io.CountingInputStream;
 
 import java.io.ByteArrayInputStream;

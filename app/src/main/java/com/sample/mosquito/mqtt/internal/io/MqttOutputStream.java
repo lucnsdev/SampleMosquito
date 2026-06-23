@@ -1,7 +1,5 @@
 package com.sample.mosquito.mqtt.internal.io;
 
-import android.util.Log;
-
 import com.sample.mosquito.mqtt.internal.messages.MqttMessage;
 
 import java.io.BufferedOutputStream;
@@ -40,7 +38,6 @@ public class MqttOutputStream {
         //Log.d("Lucas", "write: " + message.getType());
         out.write(message.getHeader());
         out.write(message.getPayload());
-
 /*
         if (message.getType() != MqttMessage.MESSAGE_TYPE_PUBLICATION_ACK) return;
         byte[] header = message.getHeader();
