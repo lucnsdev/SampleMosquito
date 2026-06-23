@@ -72,7 +72,9 @@ public class MainService extends BaseService {
         });
 
         String androidId = Settings.System.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        mosquito = new MqttClient(this, androidId, new MqttClient.Callback() {
+        mosquito = MqttClient.getInstance();
+        mosquito.setClientId(androidId);
+        mosquito.setCallback(new MqttClient.Callback() {
             @Override
             public void onBrokerConnectionChanged(boolean isConnected) {
                 timerCounter.stop();

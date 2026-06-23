@@ -37,13 +37,12 @@ public class MqttOutputStream {
     }
 
     public void write(MqttMessage message) throws IOException {
+        //Log.d("Lucas", "write: " + message.getType());
         out.write(message.getHeader());
         out.write(message.getPayload());
 
-
-        //if (message.getType() != MqttMessage.MESSAGE_TYPE_SUBSCRIBE) return;
-        /*
-        Log.d("lucas", "write type " + ((int) message.getType()));
+/*
+        if (message.getType() != MqttMessage.MESSAGE_TYPE_PUBLICATION_ACK) return;
         byte[] header = message.getHeader();
         byte[] payload = message.getPayload();
         for (int i = 0; i < header.length; i++) {
@@ -52,7 +51,7 @@ public class MqttOutputStream {
         for (int i = 0; i < payload.length; i++) {
             Log.d("Lucas", "payload[" + i + "] = " + ((int) payload[i]));
         }
-         */
+ */
     }
 }
 

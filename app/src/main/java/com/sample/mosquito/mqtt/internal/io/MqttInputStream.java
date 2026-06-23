@@ -35,7 +35,7 @@ public class MqttInputStream {
         ByteArrayOutputStream bais = new ByteArrayOutputStream();
         byte first = in.readByte();
         byte type = (byte) ((first >>> 4) & 0x0F);
-        // Log.d("lucas", "mosquito sample received:" + type);
+        //Log.d("lucas", "read: " + type);
         if ((type < MqttMessage.MESSAGE_TYPE_CONNECT) || (type > MqttMessage.MESSAGE_TYPE_DISCONNECT)) {
             throw new InvalidParameterException("Invalid type message!");
         }

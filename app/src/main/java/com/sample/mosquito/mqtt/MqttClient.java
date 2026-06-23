@@ -1,13 +1,7 @@
 package com.sample.mosquito.mqtt;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkRequest;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.sample.mosquito.mqtt.internal.PingHandler;
 import com.sample.mosquito.mqtt.internal.TcpNetwork;
@@ -37,35 +31,41 @@ public class MqttClient {
         void onPingCompleted();
     }
 
-    private final Context context;
-    private final ConnectivityManager connectivityManager;
-    private final Callback callback;
+    private Callback callback;
     private final TcpNetwork tcpNetwork;
     private final Handler handler;
-    private final String clientId;
+    private String clientId;
     private DataReader dataReader;
     private DataWriter dataWriter;
     private int currentMessageId;
     private boolean isSubscribed;
-    private boolean waitingForPingResponse;
     private boolean retryConnect;
     private boolean isConnecting;
     private String lastBroker;
     private PingHandler pingHandler;
+    private static MqttClient instance;
 
-    public MqttClient(Context context, String clientId, Callback callback) {
-        this.context = context;
-        this.callback = callback;
-        this.clientId = clientId;
+    public static MqttClient getInstance() {
+        if (instance == null) {
+            synchronized (MqttClient.class) {
+                instance = new MqttClient();
+            }
+        }
+        return instance;
+    }
+
+    private MqttClient() {
         tcpNetwork = new TcpNetwork();
         handler = new Handler(Looper.getMainLooper());
         currentMessageId = 2;
+    }
 
-        NetworkRequest.Builder builder = new NetworkRequest.Builder();
-        builder.addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
-        builder.build();
-        connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        connectivityManager.registerNetworkCallback(builder.build(), networkCallback);
+    public void setCallback(Callback callback) {
+        this.callback = callback;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
     public void setRetryConnect(boolean retryConnect) {
@@ -169,25 +169,16 @@ public class MqttClient {
             // message type send 1
         } else if (type == MqttMessage.MESSAGE_TYPE_CONNECT_ACK) {
             isConnecting = false;
-            waitingForPingResponse = false;
             pingHandler = new PingHandler(dataWriter, new PingHandler.Callback() {
                 @Override
                 public void onBrokenPipe() {
                     closeNetwork();
-                    forceReconnect();
+                    callback.onBrokerConnectionChanged(false);
                 }
 
                 @Override
                 public void onTimeExceeded() {
                     closeNetwork();
-                    forceReconnect();
-                }
-
-                private void forceReconnect() {
-                    if (hasInternetConnection() && retryConnect) {
-                        connect(lastBroker);
-                        return;
-                    }
                     callback.onBrokerConnectionChanged(false);
                 }
             });
@@ -236,7 +227,7 @@ public class MqttClient {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (hasInternetConnection() && tcpNetwork.isConnected()) {
+                    if (tcpNetwork.isConnected()) {
                         try {
                             dataWriter.write(new MqttDisconnectMessage());
                         } catch (IOException e) {
@@ -252,15 +243,12 @@ public class MqttClient {
                     });
                 }
             }).start();
-            return;
         }
-        connectivityManager.unregisterNetworkCallback(networkCallback);
     }
 
     private void closeNetwork() {
         isConnecting = false;
         isSubscribed = false;
-        connectivityManager.unregisterNetworkCallback(networkCallback);
         if (pingHandler != null) pingHandler.stop();
         if (dataWriter != null) dataWriter.stop();
         if (dataReader != null) dataReader.stop();
@@ -294,7 +282,6 @@ public class MqttClient {
     }
 
     public void publish(MqttMessage mqttMessage) {
-        waitingForPingResponse = false;
         pingHandler.start();
         MqttPublishMessage publishMessage = (MqttPublishMessage) mqttMessage;
         if (publishMessage.getQos() > 0) {
@@ -307,44 +294,4 @@ public class MqttClient {
     public void deleteRetained(String topic) {
         publish(new MqttPublishMessage(topic, new byte[0], true));
     }
-
-    private boolean hasInternetConnection() {
-        Network network = connectivityManager.getActiveNetwork();
-        if (network == null) return false;
-        NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(network);
-        if (capabilities == null) return false;
-        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
-    }
-
-    private final ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback() {
-
-        private final Handler h = new Handler(Looper.getMainLooper());
-        private final Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                if (hasInternetConnection()) connect(lastBroker);
-                else isConnecting = false;
-            }
-        };
-
-        @Override
-        public void onAvailable(Network network) {
-            closeNetwork();
-            if (isConnected() || isConnecting) callback.onBrokerConnectionChanged(false);
-            if (hasInternetConnection()) {
-                if (retryConnect) {
-                    isConnecting = true;
-                    h.removeCallbacks(r);
-                    h.postDelayed(r, 2500L);
-                }
-            } else {
-                isConnecting = false;
-            }
-        }
-
-        @Override
-        public void onLost(Network network) {
-            callback.onBrokerConnectionChanged(false);
-        }
-    };
 }
